@@ -1,0 +1,82 @@
+/* =============================================================
+   VERSIÓN MÓVIL (se carga además de style.css, solo en movil.html)
+   ============================================================= */
+
+html, body {
+  position: fixed; inset: 0;
+  touch-action: none;                 /* sin zoom ni desplazamiento al tocar */
+  overscroll-behavior: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* En el móvil se termina la partida desde el menú de pausa */
+#end-btn { display: none !important; }
+
+/* ---------- Palanca ---------- */
+#stick-zone {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 55%;
+  z-index: 20; display: none; touch-action: none;
+}
+#stick {
+  position: fixed;
+  /* posición de reposo: abajo a la izquierda */
+  left: calc(env(safe-area-inset-left, 0px) + 100px);
+  top: calc(100% - 100px - env(safe-area-inset-bottom, 0px));
+  width: 120px; height: 120px;
+  transform: translate(-50%, -50%);
+  z-index: 21; pointer-events: none; display: none;
+  opacity: .4; transition: opacity .15s;
+}
+#stick.active { opacity: .9; }
+#stick .base { width: 100%; height: 100%; display: block; }
+#stick-knob {
+  position: absolute; left: 50%; top: 50%;
+  width: 54px; height: 54px; margin: -27px 0 0 -27px;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .45));
+}
+
+/* ---------- Botón de pausa ---------- */
+#pause-btn {
+  position: fixed;
+  right: calc(env(safe-area-inset-right, 0px) + 18px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+  width: 52px; height: 52px; padding: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(243, 215, 122, .55);
+  background: radial-gradient(circle at 40% 35%, rgba(80, 62, 112, .8), rgba(26, 19, 40, .8));
+  box-shadow: 0 3px 0 rgba(10, 7, 16, .6);
+  z-index: 21; display: none; opacity: .7;
+}
+#pause-btn:active { transform: translateY(1px); opacity: 1; }
+#pause-btn svg { width: 100%; height: 100%; display: block; }
+
+/* Solo se ven mientras juegas (no en menús ni con la pausa abierta) */
+body.playing #stick-zone,
+body.playing #stick,
+body.playing #pause-btn { display: block; }
+
+/* ---------- Aviso para girar el móvil ---------- */
+#rotate {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  background: #08070c; color: #ece6d6;
+  flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  font-size: 20px; text-align: center; padding: 20px;
+}
+@media (orientation: portrait) {
+  #rotate { display: flex; }
+}
+
+/* ---------- Menús más fáciles de tocar y leer ---------- */
+.btn { min-height: 50px; font-size: 20px; }
+.btn.small { min-height: 40px; font-size: 16px; }
+.card { width: 214px; }
+.card .key { display: none; }          /* las teclas 1-4 no aplican en el móvil */
+.card .name { font-size: 20px; }
+.card .desc { font-size: 15px; }
+.card .lvl, .card .tag { font-size: 14px; }
+.seg button { font-size: 16px; padding: 8px 12px; }
+.opt { font-size: 19px; }
+.opt input[type=checkbox] { width: 28px; height: 28px; }
+.opt input[type=range] { width: 220px; height: 28px; }

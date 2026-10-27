@@ -1,0 +1,138 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #08070c;
+  overflow: hidden;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  color: #ece6d6;
+  user-select: none;
+}
+
+/* El juego mide 960x540 y se escala para llenar la ventana */
+#wrap {
+  position: absolute; left: 50%; top: 50%;
+  width: 960px; height: 540px;
+  transform: translate(-50%, -50%) scale(var(--s, 1));
+}
+canvas { display: block; width: 960px; height: 540px; image-rendering: pixelated; background: #000; }
+#ui { position: absolute; inset: 0; pointer-events: none; }
+
+.screen {
+  pointer-events: auto;
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px;
+  background: rgba(8, 6, 14, .74);
+  animation: fadein .2s ease-out;
+}
+.screen.clear { background: rgba(8, 6, 14, .35); }
+.screen[hidden] { display: none; }
+
+/* Botón "Terminar partida" (abajo a la derecha) y su confirmación */
+#end-btn {
+  position: absolute; right: 10px; bottom: 10px; z-index: 5;
+  font-size: 12px; padding: 4px 10px; opacity: .75;
+}
+#end-btn:hover { opacity: 1; }
+#confirm { z-index: 10; background: rgba(8, 6, 14, .82); }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+h1 {
+  font-size: 64px; letter-spacing: 3px; color: #f3d77a;
+  text-shadow: 0 4px 0 #6b3d14, 0 0 24px rgba(243, 215, 122, .25);
+}
+h2 { font-size: 34px; color: #f3d77a; text-shadow: 0 3px 0 #4a2a10; }
+h3 { font-size: 18px; color: #f3d77a; margin-bottom: 4px; }
+.subtitle { color: #b9b0c8; font-size: 16px; margin-top: -6px; }
+.hint { color: #8f87a0; font-size: 13px; }
+.row { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+
+.btn {
+  pointer-events: auto;
+  min-width: 220px; padding: 10px 18px;
+  font: inherit; font-size: 18px; font-weight: bold; color: #ece6d6;
+  background: linear-gradient(#3b2f52, #2a2140);
+  border: 3px solid #6c5a8e; border-radius: 4px;
+  box-shadow: 0 4px 0 #15101f;
+  cursor: pointer;
+  transition: transform .08s, border-color .08s, background .08s;
+}
+.btn:hover { transform: translateY(-2px); border-color: #f3d77a; }
+.btn:active { transform: translateY(1px); box-shadow: 0 2px 0 #15101f; }
+.btn.small { min-width: 0; font-size: 14px; padding: 6px 12px; }
+.btn.gold { background: linear-gradient(#7a5a1c, #5a3f10); border-color: #f3d77a; }
+.btn:disabled { opacity: .45; cursor: default; transform: none; border-color: #4a4060; }
+
+.panel {
+  background: rgba(24, 18, 36, .92);
+  border: 3px solid #5a4a78; border-radius: 6px;
+  box-shadow: 0 6px 0 #0c0912;
+  padding: 16px 20px;
+}
+
+.gold-text { color: #f3d77a; font-weight: bold; }
+
+/* Tarjetas de mejora (subir de nivel, cofres, reliquias) */
+.cards { display: flex; gap: 14px; justify-content: center; }
+.card {
+  pointer-events: auto;
+  width: 200px; min-height: 250px;
+  background: linear-gradient(#251c36, #19122a);
+  border: 3px solid var(--c, #6c5a8e); border-radius: 6px;
+  box-shadow: 0 5px 0 #0c0912, inset 0 0 18px rgba(0, 0, 0, .4);
+  padding: 12px; text-align: center; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: pop .22s ease-out backwards;
+  transition: transform .1s;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 11px 0 #0c0912, 0 0 14px var(--c); }
+.card img { width: 64px; height: 64px; image-rendering: pixelated; }
+.card .key { font-size: 12px; color: #8f87a0; align-self: flex-start; }
+.card .name { font-size: 17px; font-weight: bold; color: var(--c, #fff); }
+.card .tag { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #b9b0c8; }
+.card .lvl { font-size: 13px; color: #f3d77a; }
+.card .desc { font-size: 13px; color: #d6cfe2; line-height: 1.35; }
+.card .new { color: #7dff9a; font-weight: bold; font-size: 13px; }
+
+/* Selección de personaje */
+.hero { width: 240px; min-height: 330px; cursor: pointer; }
+.hero img { width: 96px; height: 96px; }
+.hero.selected { border-color: #f3d77a; box-shadow: 0 5px 0 #0c0912, 0 0 18px rgba(243, 215, 122, .5); }
+.hero.locked { filter: grayscale(.8) brightness(.7); }
+.stats { font-size: 12px; color: #c9c0d8; text-align: left; width: 100%; line-height: 1.5; }
+.excl { display: flex; gap: 4px; justify-content: center; }
+.excl img { width: 32px; height: 32px; }
+
+/* Tienda */
+.shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.shop-item { display: flex; align-items: center; gap: 10px; width: 400px; padding: 8px 10px; }
+.shop-item img { width: 40px; height: 40px; image-rendering: pixelated; }
+.shop-item .info { flex: 1; }
+.shop-item .info b { color: #f3d77a; }
+.shop-item .info div { font-size: 12px; color: #c9c0d8; }
+.pips { display: flex; gap: 3px; margin-top: 3px; }
+.pip { width: 10px; height: 6px; background: #3a3050; border: 1px solid #5a4a78; }
+.pip.on { background: #f3d77a; border-color: #f3d77a; }
+
+/* Opciones */
+.opt { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 420px; padding: 6px 0; font-size: 16px; }
+.opt input[type=range] { width: 180px; accent-color: #f3d77a; }
+.opt input[type=checkbox] { width: 20px; height: 20px; accent-color: #f3d77a; }
+.seg { display: flex; }
+.seg button {
+  font: inherit; font-size: 13px; padding: 4px 10px; color: #ece6d6; cursor: pointer;
+  background: #2a2140; border: 2px solid #5a4a78; margin-left: -2px;
+}
+.seg button.on { background: #6b5320; border-color: #f3d77a; }
+
+/* Pausa: equipo actual */
+.build { display: flex; flex-wrap: wrap; gap: 6px; max-width: 520px; justify-content: center; }
+.slot { display: flex; flex-direction: column; align-items: center; font-size: 11px; width: 54px; }
+.slot img { width: 40px; height: 40px; image-rendering: pixelated; background: #1a1428; border: 2px solid var(--c, #5a4a78); }
+
+.big-stats { font-size: 16px; line-height: 1.7; text-align: center; }
+.record { color: #7dff9a; font-weight: bold; font-size: 20px; }
+.evo-title { font-size: 40px; color: #ff7ab0; text-shadow: 0 3px 0 #4a1030, 0 0 20px rgba(255, 122, 176, .4); }

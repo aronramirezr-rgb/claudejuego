@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Reino Sombrío · Móvil</title>
+  <!-- versión para celular: sin zoom, pantalla completa y en horizontal -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#08070c">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="game" width="960" height="540"></canvas>
+    <div id="ui"></div>
+    <button id="end-btn" class="btn small"></button>
+    <div id="confirm" class="screen" hidden>
+      <h2 id="confirm-title"></h2>
+      <div class="subtitle" id="confirm-text"></div>
+      <div class="row">
+        <button class="btn" id="confirm-no"></button>
+        <button class="btn gold" id="confirm-yes"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- zona táctil donde se usa la palanca (mitad izquierda de la pantalla) -->
+  <div id="stick-zone"></div>
+
+  <!-- palanca: un aro de bronce con runas y un pomo dorado con una gema -->
+  <div id="stick">
+    <svg class="base" viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="56" fill="rgba(18,12,28,0.38)" stroke="rgba(243,215,122,0.55)" stroke-width="2"/>
+      <circle cx="60" cy="60" r="47" fill="none" stroke="rgba(243,215,122,0.18)" stroke-width="1"/>
+      <!-- runas de dirección -->
+      <path d="M60 7 L64 13 L60 19 L56 13 Z" fill="rgba(243,215,122,0.5)"/>
+      <path d="M60 101 L64 107 L60 113 L56 107 Z" fill="rgba(243,215,122,0.5)"/>
+      <path d="M7 60 L13 56 L19 60 L13 64 Z" fill="rgba(243,215,122,0.5)"/>
+      <path d="M101 60 L107 56 L113 60 L107 64 Z" fill="rgba(243,215,122,0.5)"/>
+      <circle cx="22.5" cy="22.5" r="1.6" fill="rgba(243,215,122,0.35)"/>
+      <circle cx="97.5" cy="22.5" r="1.6" fill="rgba(243,215,122,0.35)"/>
+      <circle cx="22.5" cy="97.5" r="1.6" fill="rgba(243,215,122,0.35)"/>
+      <circle cx="97.5" cy="97.5" r="1.6" fill="rgba(243,215,122,0.35)"/>
+    </svg>
+    <svg id="stick-knob" viewBox="0 0 60 60" aria-hidden="true">
+      <defs>
+        <radialGradient id="knobGrad" cx="40%" cy="35%" r="65%">
+          <stop offset="0" stop-color="#f6e2a0"/>
+          <stop offset="0.55" stop-color="#c8963c"/>
+          <stop offset="1" stop-color="#6b4518"/>
+        </radialGradient>
+      </defs>
+      <circle cx="30" cy="30" r="26" fill="url(#knobGrad)" stroke="#2a1d10" stroke-width="2"/>
+      <circle cx="30" cy="30" r="19" fill="none" stroke="rgba(255,240,200,0.35)" stroke-width="1"/>
+      <path d="M30 22 L36 30 L30 38 L24 30 Z" fill="#b8323c" stroke="#5a1018" stroke-width="1.2"/>
+      <path d="M30 24 L33 29 L30 30 Z" fill="rgba(255,220,220,0.6)"/>
+    </svg>
+  </div>
+
+  <!-- botón de pausa -->
+  <button id="pause-btn" aria-label="Pausa">
+    <svg viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="13" y="11" width="5" height="18" rx="1.5" fill="#f3d77a"/>
+      <rect x="22" y="11" width="5" height="18" rx="1.5" fill="#f3d77a"/>
+    </svg>
+  </button>
+
+  <!-- aviso para girar el móvil -->
+  <div id="rotate">
+    <svg viewBox="0 0 64 64" width="72" height="72" aria-hidden="true">
+      <rect x="20" y="8" width="24" height="44" rx="4" fill="none" stroke="#f3d77a" stroke-width="3"/>
+      <path d="M50 40 A20 20 0 0 1 30 58" fill="none" stroke="#b9b0c8" stroke-width="2.5"/>
+      <path d="M30 58 L36 54 M30 58 L35 62" stroke="#b9b0c8" stroke-width="2.5"/>
+    </svg>
+    <div id="rotate-text"></div>
+  </div>
+
+  <!-- el mismo juego que la versión de PC -->
+  <script src="js/i18n.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/weapons.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <!-- y lo propio del móvil: palanca, botón de pausa, textos -->
+  <script src="js/mobile.js"></script>
+</body>
+</html>

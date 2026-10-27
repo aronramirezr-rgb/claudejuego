@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Reino Sombrío</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="game" width="960" height="540"></canvas>
+    <div id="ui"></div>
+    <!-- botón para terminar la partida en cualquier momento -->
+    <button id="end-btn" class="btn small"></button>
+    <div id="confirm" class="screen" hidden>
+      <h2 id="confirm-title"></h2>
+      <div class="subtitle" id="confirm-text"></div>
+      <div class="row">
+        <button class="btn" id="confirm-no"></button>
+        <button class="btn gold" id="confirm-yes"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- El orden importa: cada archivo usa cosas de los anteriores -->
+  <script src="js/i18n.js"></script>     <!-- textos en español e inglés -->
+  <script src="js/storage.js"></script>  <!-- guardado y opciones -->
+  <script src="js/audio.js"></script>    <!-- efectos de sonido y música -->
+  <script src="js/sprites.js"></script>  <!-- pixel art dibujado por código -->
+  <script src="js/data.js"></script>     <!-- personajes, mejoras, enemigos, zonas -->
+  <script src="js/world.js"></script>    <!-- mapa, obstáculos y salas secretas -->
+  <script src="js/weapons.js"></script>  <!-- comportamiento de cada arma -->
+  <script src="js/enemies.js"></script>  <!-- enemigos, jefes y eventos -->
+  <script src="js/game.js"></script>     <!-- reglas de la partida -->
+  <script src="js/render.js"></script>   <!-- dibujar todo en pantalla -->
+  <script src="js/ui.js"></script>       <!-- menús -->
+  <script src="js/main.js"></script>     <!-- arranque, teclado y bucle principal -->
+</body>
+</html>
